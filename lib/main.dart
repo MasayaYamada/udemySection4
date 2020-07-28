@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import './transaction.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -13,6 +15,21 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatelessWidget {
+  final List<Transaction> transaction = [
+    Transaction(
+      id: 't1',
+      title: 'New Shoes',
+      amount: 69.99,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 't2',
+      title: 'Weekly Groceries',
+      amount: 16.25,
+      date: DateTime.now(),
+    ),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,10 +48,40 @@ class MyHomePage extends StatelessWidget {
                 child: Text('CHART!'),
               ),
             ),
-            Card(
-              child: Text('LIST OF TX'),
-              color: Colors.red,
-            )
+            //List型で入っているデータをmapにし、カードで出力
+            //List 内の全てのデータのtitleを出力している
+            Column(
+              children: transaction.map((tx) {
+                return Card(
+                  child: Row(
+                    children: [
+                      Container(
+                        margin: EdgeInsets.symmetric(
+                          vertical: 10.0,
+                          horizontal: 15.0,
+                        ),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.black,
+                            width: 2,
+                          ),
+                        ),
+                        padding: EdgeInsets.all(10),
+                        child: Text(
+                          tx.amount.toString(),
+                        ),
+                      ),
+                      Column(
+                        children: [
+                          Text(tx.title),
+                          Text(tx.date.toString()),
+                        ],
+                      )
+                    ],
+                  ),
+                );
+              }).toList(),
+            ),
           ],
         ));
   }
